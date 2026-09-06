@@ -8,19 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-namespace inventory_system
+namespace inventory_system.View
 {
-    public partial class formlogin : Form
+    public partial class uc_brand : UserControl
     {
-        public formlogin()
+        public uc_brand()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
         }
     }
 }

@@ -10,15 +10,15 @@ using System.Windows.Forms;
 
 namespace inventory_system.View
 {
-    public partial class uc_Accessory : UserControl
+    public partial class uc_Models : UserControl
     {
-        public uc_Accessory()
+        public uc_Models()
         {
             InitializeComponent();
             this.Dock = DockStyle.Fill;
         }
 
-        private void uc_Accessory_Load(object sender, EventArgs e)
+        private void uc_Models_Load(object sender, EventArgs e)
         {
 
         }

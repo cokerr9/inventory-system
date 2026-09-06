@@ -1,19 +1,15 @@
-
-﻿using inventory_system.Controller;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace inventory_system.Models
+namespace inventory_system
 {
-    internal class UserModel : connection_db
+    internal class UserDetail
     {
         public int UserId { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
         public string UserRole { get; set; }
-        public int UserStatus { get; set; }
     }
 }

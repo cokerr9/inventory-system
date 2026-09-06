@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button8 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -46,6 +48,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.button7);
             this.panel1.Controls.Add(this.button6);
@@ -61,6 +64,19 @@
             this.panel1.Size = new System.Drawing.Size(267, 670);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // button8
+            // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.BackColor = System.Drawing.Color.Gainsboro;
+            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button8.ForeColor = System.Drawing.Color.DarkGreen;
+            this.button8.Location = new System.Drawing.Point(11, 409);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(243, 45);
+            this.button8.TabIndex = 9;
+            this.button8.Text = "Brands";
+            this.button8.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -80,7 +96,7 @@
             this.button7.BackColor = System.Drawing.Color.Gainsboro;
             this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button7.ForeColor = System.Drawing.Color.DarkGreen;
-            this.button7.Location = new System.Drawing.Point(11, 512);
+            this.button7.Location = new System.Drawing.Point(11, 562);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(243, 45);
             this.button7.TabIndex = 7;
@@ -108,7 +124,7 @@
             this.button5.BackColor = System.Drawing.Color.Gainsboro;
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.ForeColor = System.Drawing.Color.DarkGreen;
-            this.button5.Location = new System.Drawing.Point(11, 409);
+            this.button5.Location = new System.Drawing.Point(11, 358);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(243, 45);
             this.button5.TabIndex = 5;
@@ -136,12 +152,13 @@
             this.button3.BackColor = System.Drawing.Color.Gainsboro;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.ForeColor = System.Drawing.Color.DarkGreen;
-            this.button3.Location = new System.Drawing.Point(11, 358);
+            this.button3.Location = new System.Drawing.Point(11, 511);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(243, 45);
             this.button3.TabIndex = 3;
             this.button3.Text = "Models";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -160,13 +177,14 @@
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Image = global::inventory_system.Properties.Resources.man_with_sunglasses_and_suit;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(28, 13);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(199, 186);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // button1
             // 
@@ -184,7 +202,7 @@
             // 
             // uc_Container
             // 
-            this.uc_Container.BackColor = System.Drawing.SystemColors.Control;
+            this.uc_Container.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.uc_Container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uc_Container.Location = new System.Drawing.Point(267, 0);
             this.uc_Container.Name = "uc_Container";
@@ -203,6 +221,7 @@
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -223,5 +242,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button8;
     }
 }
