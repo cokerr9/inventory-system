@@ -28,41 +28,74 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.dataCategory = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.cboxCategoryStatus = new System.Windows.Forms.ComboBox();
+            this.cboCategoryStatus = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtCategoryName = new System.Windows.Forms.TextBox();
             this.txtCategoryId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataCategory)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataCategory
             // 
-            this.dataGridView1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(52, 262);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1061, 520);
-            this.dataGridView1.TabIndex = 40;
+            this.dataCategory.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.dataCategory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataCategory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3});
+            this.dataCategory.Location = new System.Drawing.Point(52, 262);
+            this.dataCategory.Name = "dataCategory";
+            this.dataCategory.RowHeadersWidth = 51;
+            this.dataCategory.RowTemplate.Height = 24;
+            this.dataCategory.Size = new System.Drawing.Size(1061, 520);
+            this.dataCategory.TabIndex = 40;
+            this.dataCategory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataCategory_CellClick);
             // 
-            // btnSave
+            // Column1
             // 
-            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
-            this.btnSave.Location = new System.Drawing.Point(516, 195);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(174, 39);
-            this.btnSave.TabIndex = 39;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.Column1.DataPropertyName = "CategoryId";
+            this.Column1.HeaderText = "Category ID";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 125;
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "CategoryName";
+            this.Column2.HeaderText = "Category Name";
+            this.Column2.MinimumWidth = 6;
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 125;
+            // 
+            // Column3
+            // 
+            this.Column3.DataPropertyName = "CategoryStatus";
+            this.Column3.HeaderText = "Category Status";
+            this.Column3.MinimumWidth = 6;
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 125;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
+            this.btnUpdate.Location = new System.Drawing.Point(516, 195);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(174, 39);
+            this.btnUpdate.TabIndex = 39;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            //this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click_1);
             // 
             // btnDelete
             // 
@@ -74,6 +107,7 @@
             this.btnDelete.TabIndex = 38;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAdd
             // 
@@ -85,20 +119,17 @@
             this.btnAdd.TabIndex = 37;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // cboxCategoryStatus
-            // 
-            this.cboxCategoryStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cboxCategoryStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboxCategoryStatus.FormattingEnabled = true;
-            this.cboxCategoryStatus.Items.AddRange(new object[] {
+
+            this.cboCategoryStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cboCategoryStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboCategoryStatus.FormattingEnabled = true;
+            this.cboCategoryStatus.Items.AddRange(new object[] {
             "Active",
             "Disable"});
-            this.cboxCategoryStatus.Location = new System.Drawing.Point(830, 124);
-            this.cboxCategoryStatus.Name = "cboxCategoryStatus";
-            this.cboxCategoryStatus.Size = new System.Drawing.Size(283, 39);
-            this.cboxCategoryStatus.TabIndex = 34;
+            this.cboCategoryStatus.Location = new System.Drawing.Point(830, 124);
+            this.cboCategoryStatus.Name = "cboCategoryStatus";
+            this.cboCategoryStatus.Size = new System.Drawing.Size(283, 39);
+            this.cboCategoryStatus.TabIndex = 34;
             // 
             // label7
             // 
@@ -167,11 +198,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.dataCategory);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.cboxCategoryStatus);
+            this.Controls.Add(this.cboCategoryStatus);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -181,7 +212,7 @@
             this.Name = "uc_Category";
             this.Size = new System.Drawing.Size(1159, 802);
             this.Load += new System.EventHandler(this.uc_Category_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataCategory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,16 +220,19 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.DataGridView dataCategory;
+        private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.ComboBox cboxCategoryStatus;
+        private System.Windows.Forms.ComboBox cboCategoryStatus;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCategoryName;
         private System.Windows.Forms.TextBox txtCategoryId;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }
