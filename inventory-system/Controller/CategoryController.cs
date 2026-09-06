@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace inventory_system.Controller
 {
-    internal class CategoryController : Models.ModelsCategory
+    internal class ControllerCategory : Models.CategoryModels
     {
         // Insert Category
-        public void InsertUser()
+        public void InsertCategory()
         {
             try
             {
@@ -22,12 +17,15 @@ namespace inventory_system.Controller
                 {
                     db.conn.Open();
                 }
-
-                using (SqlCommand cmd = new SqlCommand("InsertUser", db.conn))
+                using (SqlCommand cmd = new SqlCommand("InsertCategory", db.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@CategoryName", SqlDbType.NVarChar).Value = CategoryName;
-                    cmd.Parameters.Add("@CategoryStatus", SqlDbType.NVarChar).Value = CategoryStatus;
+                    cmd.Parameters.AddWithValue("@CategoryName", this.CategoryName?.Trim() ?? string.Empty);
+
+                    // Convert string "Active" to 1, otherwise 0
+                    int statusValue = string.Equals(this.CategoryStatus, "Active", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+                    cmd.Parameters.AddWithValue("@CategoryStatus", statusValue);
+
                     cmd.ExecuteNonQuery();
                 }
 
@@ -35,6 +33,9 @@ namespace inventory_system.Controller
                 {
                     db.conn.Close();
                 }
+
+                MessageBox.Show("Category inserted successfully!", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -44,7 +45,75 @@ namespace inventory_system.Controller
             }
         }
 
-        // Get data from Category 
+        // Update Category
+        public void UpdateCategory()
+        {
+            try
+            {
+                connection_db db = new connection_db();
+                if (db.conn.State != ConnectionState.Open)
+                {
+                    db.conn.Open();
+                }
+
+                using (SqlCommand cmd = new SqlCommand("UpdateCategory", db.conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CategoryId", this.CategoryId);
+                    cmd.Parameters.AddWithValue("@CategoryName", this.CategoryName?.Trim() ?? string.Empty);
+
+                    int statusValue = string.Equals(this.CategoryStatus, "Active", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+                    cmd.Parameters.AddWithValue("@CategoryStatus", statusValue);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                if (db.conn.State == ConnectionState.Open)
+                {
+                    db.conn.Close();
+                }
+
+                MessageBox.Show("Category updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Category Update Failed: " + ex.Message, "Cannot Update Category", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // Delete Category
+        public void DeleteCategory()
+        {
+            try
+            {
+                connection_db db = new connection_db();
+                if (db.conn.State != ConnectionState.Open)
+                {
+                    db.conn.Open();
+                }
+
+                using (SqlCommand cmd = new SqlCommand("DeleteCategory", db.conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CategoryId", this.CategoryId);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                if (db.conn.State == ConnectionState.Open)
+                {
+                    db.conn.Close();
+                }
+
+                MessageBox.Show("Category deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Category Deletion Failed: " + ex.Message, "Cannot Delete Category", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // Get data from Category
         public DataTable dt = new DataTable();
         public DataSet ds = new DataSet();
         public SqlDataAdapter adapter = new SqlDataAdapter();
@@ -73,7 +142,8 @@ namespace inventory_system.Controller
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get Category Data Failed: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Get Category Data Failed: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
