@@ -71,6 +71,7 @@
             this.dgsupplier.Size = new System.Drawing.Size(989, 424);
             this.dgsupplier.TabIndex = 40;
             this.dgsupplier.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgsupplier_CellContentClick);
+            this.dgsupplier.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgsupplier_CellContentClick_1);
             // 
             // Column1
             // 

@@ -169,5 +169,10 @@ namespace inventory_system.View
             btndelete.Enabled = false;
             txtsupplierId.Enabled = false;
         }
+
+        private void dgsupplier_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

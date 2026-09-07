@@ -130,5 +130,15 @@ namespace inventory_system.View
             uc_Container.Controls.Add(settingControl);
             settingControl.BringToFront();
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+            uc_Container.Controls.Clear();
+            uc_Container.Dock = DockStyle.Fill;
+            uc_brand settingControl = new uc_brand();
+            uc_Container.Controls.Add(settingControl);
+            settingControl.BringToFront();
+        }
     }
 }
