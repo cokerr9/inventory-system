@@ -86,17 +86,17 @@
   <ItemGroup>
     <Compile Include="connection_db.cs" />
     <Compile Include="Controller\CategoryController.cs" />
-    <Compile Include="Controller\ControllerBrands.cs" />
     <Compile Include="Controller\ControllerModels.cs" />
     <Compile Include="Controller\ControllerSetting.cs" />
     <Compile Include="Controller\Controllersupplier.cs" />
+    <Compile Include="Controller\PurchaseController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Models\CategoryModels.cs" />
     <Compile Include="Models\Modelmodels.cs" />
-    <Compile Include="Models\ModelsBrands.cs" />
     <Compile Include="Models\ModelsSetting.cs" />
     <Compile Include="Models\Modelsupplier.cs" />
+    <Compile Include="Models\PurchaseModels.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -143,6 +143,12 @@
     <Compile Include="View\uc_Models.Designer.cs">
       <DependentUpon>uc_Models.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\uc_Purchase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\uc_Purchase.Designer.cs">
+      <DependentUpon>uc_Purchase.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\uc_Setting.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,9 +183,6 @@
     <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\uc_brand.resx">
-      <DependentUpon>uc_brand.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="View\uc_Dashboard.resx">
       <DependentUpon>uc_Dashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -191,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\uc_Models.resx">
       <DependentUpon>uc_Models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\uc_Purchase.resx">
+      <DependentUpon>uc_Purchase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\uc_Setting.resx">
       <DependentUpon>uc_Setting.cs</DependentUpon>
