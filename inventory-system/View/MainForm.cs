@@ -140,5 +140,14 @@ namespace inventory_system.View
             uc_Container.Controls.Add(settingControl);
             settingControl.BringToFront();
         }
+
+        private void btnPurchase_Click(object sender, EventArgs e)
+        {
+            uc_Container.Controls.Clear();
+            uc_Container.Dock = DockStyle.Fill;
+            uc_Purchase purchaseControl = new uc_Purchase();
+            uc_Container.Controls.Add(purchaseControl);
+            purchaseControl.BringToFront();
+        }
     }
 }
