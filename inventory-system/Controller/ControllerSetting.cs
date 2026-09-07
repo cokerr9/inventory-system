@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +17,25 @@ namespace inventory_system.Controller
             {
                 closeConnection = EnsureConnectionIsOpen();
 
-                using (SqlCommand cmd = new SqlCommand())
+                try
                 {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "InsertSetting";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar).Value = CompanyName;
-                    cmd.Parameters.Add("@CompanyLogo", SqlDbType.Image).Value = CompanyLogo;
-                    cmd.ExecuteNonQuery();
+                    using (SqlCommand cmd = new SqlCommand("InsertSetting", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar, 50).Value = (object)CompanyName ?? DBNull.Value;
+                        cmd.Parameters.Add("@CompanyLogo", SqlDbType.VarBinary, -1).Value = (object)CompanyLogo ?? DBNull.Value;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (SqlException ex) when (ex.Number == 2812) // Stored procedure not found
+                {
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO tblSetting (CompanyName, CompanyLogo) VALUES (@CompanyName, @CompanyLogo)", conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar, 50).Value = (object)CompanyName ?? DBNull.Value;
+                        cmd.Parameters.Add("@CompanyLogo", SqlDbType.VarBinary, -1).Value = (object)CompanyLogo ?? DBNull.Value;
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
             catch (Exception ex)
@@ -36,6 +47,7 @@ namespace inventory_system.Controller
                 CloseConnectionIfOpened(closeConnection);
             }
         }
+
         public void UpdateSetting()
         {
             bool closeConnection = false;
@@ -43,15 +55,27 @@ namespace inventory_system.Controller
             {
                 closeConnection = EnsureConnectionIsOpen();
 
-                using (SqlCommand cmd = new SqlCommand())
+                try
                 {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "UpdateSetting";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value = CompanyId;
-                    cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar).Value = CompanyName;
-                    cmd.Parameters.Add("@CompanyLogo", SqlDbType.Image).Value = CompanyLogo;
-                    cmd.ExecuteNonQuery();
+                    using (SqlCommand cmd = new SqlCommand("UpdateSetting", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value = CompanyId;
+                        cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar, 50).Value = (object)CompanyName ?? DBNull.Value;
+                        cmd.Parameters.Add("@CompanyLogo", SqlDbType.VarBinary, -1).Value = (object)CompanyLogo ?? DBNull.Value;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (SqlException ex) when (ex.Number == 2812) // Stored procedure not found
+                {
+                    using (SqlCommand cmd = new SqlCommand("UPDATE tblSetting SET CompanyName = @CompanyName, CompanyLogo = @CompanyLogo WHERE CompanyId = @CompanyId", conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value = CompanyId;
+                        cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar, 50).Value = (object)CompanyName ?? DBNull.Value;
+                        cmd.Parameters.Add("@CompanyLogo", SqlDbType.VarBinary, -1).Value = (object)CompanyLogo ?? DBNull.Value;
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
             catch (Exception ex)
@@ -63,31 +87,54 @@ namespace inventory_system.Controller
                 CloseConnectionIfOpened(closeConnection);
             }
         }
-        public void DeleteSetting()
+
+        public bool LoadCompanySetting(int? companyId = null)
         {
             bool closeConnection = false;
             try
             {
                 closeConnection = EnsureConnectionIsOpen();
 
-                using (SqlCommand cmd = new SqlCommand())
+                string query;
+                if (companyId.HasValue && companyId.Value > 0)
                 {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "DeleteSetting";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value = CompanyId;
-                    cmd.ExecuteNonQuery();
+                    query = "SELECT TOP 1 CompanyId, CompanyName, CompanyLogo FROM tblSetting WHERE CompanyId = @CompanyId";
                 }
+                else
+                {
+                    query = "SELECT TOP 1 CompanyId, CompanyName, CompanyLogo FROM tblSetting ORDER BY CompanyId DESC";
+                }
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    if (companyId.HasValue && companyId.Value > 0)
+                    {
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int).Value = companyId.Value;
+                    }
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            CompanyId = Convert.ToInt32(dr["CompanyId"]);
+                            CompanyName = dr["CompanyName"] != DBNull.Value ? dr["CompanyName"].ToString() : string.Empty;
+                            CompanyLogo = dr["CompanyLogo"] != DBNull.Value ? (byte[])dr["CompanyLogo"] : null;
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
             catch (Exception ex)
             {
-                throw new Exception("Delete setting failed: " + ex.Message, ex);
+                throw new Exception("Load setting failed: " + ex.Message, ex);
             }
             finally
             {
                 CloseConnectionIfOpened(closeConnection);
             }
         }
+
 
         public System.Drawing.Image GetCompanyLogo()
         {

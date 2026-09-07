@@ -1,8 +1,7 @@
-﻿using inventory_system.Properties;
+using inventory_system.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -25,200 +24,110 @@ namespace inventory_system.View
 
         private void uc_Setting_Load(object sender, EventArgs e)
         {
-            loadData(1);
-            LoadGrid();
+            loadData();
         }
 
-        public void loadData(int companyId)
+        public void loadData(int companyId = 0)
         {
             try
             {
-                if (setting.conn.State != ConnectionState.Open)
+                bool found = setting.LoadCompanySetting(companyId > 0 ? (int?)companyId : null);
+
+                if (found)
                 {
-                    setting.conn.Open();
-                }
+                    txtcompanyid.Text = setting.CompanyId.ToString();
+                    txtcompanyname.Text = setting.CompanyName;
 
-                System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(
-                    "SELECT CompanyId, CompanyName, CompanyLogo from tblSetting where CompanyId = @CompanyId", setting.conn);
-                cmd.Parameters.AddWithValue("@CompanyId", companyId);
-
-                System.Data.SqlClient.SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read())
-                {
-                    txtcompanyid.Text = dr["CompanyId"].ToString();
-                    txtcompanyname.Text = dr["CompanyName"].ToString();
-
-                    if (dr["CompanyLogo"] != DBNull.Value)
+                    Image logo = setting.GetLogoAsImage();
+                    if (logo != null)
                     {
-                        byte[] img = (byte[])dr["CompanyLogo"];
-                        using (System.IO.MemoryStream ms = new System.IO.MemoryStream(img))
-                        {
-                            pblogo.Image = Image.FromStream(ms);
-                        }
+                        pblogo.Image = logo;
                     }
                     else
                     {
-                        pblogo.Image = null;
+                        pblogo.Image = Resources.man_with_sunglasses_and_suit;
                     }
-                    btnSave.Text = "Update Setting";
                 }
-                dr.Close();
+                else
+                {
+                    txtcompanyid.Text = "";
+                    txtcompanyname.Text = "";
+                    pblogo.Image = Resources.man_with_sunglasses_and_suit;
+                }
+                pblogo.SizeMode = PictureBoxSizeMode.Zoom;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Load Setting Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally
-            {
-                if (setting.conn.State == ConnectionState.Open)
-                {
-                    setting.conn.Close();
-                }
-            }
         }
 
         private void addLogo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Choose Your Logo(*.jpg;*.png;*.gif)|*.jpg; *.png; *.gif";
-            if (ofd.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                pblogo.Image = System.Drawing.Image.FromFile(ofd.FileName);
+                ofd.Filter = "Image Files (*.jpg;*.jpeg;*.png;*.gif;*.bmp)|*.jpg;*.jpeg;*.png;*.gif;*.bmp|All files (*.*)|*.*";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        using (var stream = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read))
+                        using (var img = Image.FromStream(stream))
+                        {
+                            pblogo.Image = new Bitmap(img);
+                            pblogo.SizeMode = PictureBoxSizeMode.Zoom;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Cannot load selected image: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (txtcompanyname.Text == "")
+            string companyName = txtcompanyname.Text.Trim();
+            if (string.IsNullOrEmpty(companyName))
             {
-                MessageBox.Show("Invalid Company Name", "Valid Company Name", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter a valid Company Name.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtcompanyname.Focus();
                 return;
             }
 
             if (pblogo.Image == null)
             {
-                MessageBox.Show("Please Select a Company Logo", "Valid Logo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a Company Logo.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            byte[] arr;
-            ImageConverter converter = new ImageConverter();
-            arr = (byte[])converter.ConvertTo(pblogo.Image, typeof(byte[]));
+            bool isUpdate = int.TryParse(txtcompanyid.Text.Trim(), out int companyId) && companyId > 0;
 
-            if (btnSave.Text == "Add Logo")
-            {
-                try
-                {
-                    setting.CompanyName = txtcompanyname.Text;
-                    setting.CompanyLogo = arr;
-                    setting.InsertSetting();
-                    MessageBox.Show("Logo Has Been Inserted", "Insert Logo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Insert Logo Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-            else
-            {
-                int companyId;
-                if (!int.TryParse(txtcompanyid.Text, out companyId))
-                {
-                    MessageBox.Show("Invalid Company Id", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtcompanyid.Focus();
-                    return;
-                }
-                try
-                {
-                    setting.CompanyId = companyId;
-                    setting.CompanyName = txtcompanyname.Text;
-                    setting.CompanyLogo = arr;
-                    setting.UpdateSetting();
-                    MessageBox.Show("Logo Has Been Updated", "Update Logo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Update Logo Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-            LoadGrid();
-            RefreshMainFormLogo();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int companyId;
-            if (!int.TryParse(txtcompanyid.Text, out companyId))
-            {
-                MessageBox.Show("Invalid Company Id", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (MessageBox.Show("Are you sure you want to delete this setting?", "Confirm Delete",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                try
-                {
-                    setting.CompanyId = companyId;
-                    setting.DeleteSetting();
-                    MessageBox.Show("Logo Has Been Deleted", "Delete Logo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Delete Logo Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                txtcompanyid.Text = "";
-                txtcompanyname.Text = "";
-                pblogo.Image = null;
-                btnSave.Text = "Add Logo";
-                LoadGrid();
-                RefreshMainFormLogo();
-            }
-        }
-
-        private void dgsetting_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            DataGridViewRow row = dgsetting.Rows[e.RowIndex];
-
-            if (int.TryParse(row.Cells["CompanyId"].Value?.ToString(), out int companyId))
-            {
-                loadData(companyId);
-            }
-        }
-
-        public void LoadGrid()
-        {
             try
             {
-                if (setting.conn.State != ConnectionState.Open)
+                setting.CompanyName = companyName;
+                setting.SetLogoFromImage(pblogo.Image);
+
+                if (isUpdate)
                 {
-                    setting.conn.Open();
+                    setting.CompanyId = companyId;
+                    setting.UpdateSetting();
+                    MessageBox.Show("Company setting has been updated successfully!", "Update Setting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    setting.InsertSetting();
+                    MessageBox.Show("Company setting has been saved successfully!", "Save Setting", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
-                System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(
-                    "SELECT CompanyId, CompanyName, CompanyLogo FROM tblSetting", setting.conn);
-                System.Data.SqlClient.SqlDataAdapter da = new System.Data.SqlClient.SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgsetting.DataSource = dt;
+                loadData();
+                RefreshMainFormLogo();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Load Grid Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (setting.conn.State == ConnectionState.Open)
-                {
-                    setting.conn.Close();
-                }
+                string action = isUpdate ? "Update" : "Insert";
+                MessageBox.Show($"{action} Setting Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
