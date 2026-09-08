@@ -50,7 +50,6 @@ namespace inventory_system.View
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
             this.dgPurchase = new System.Windows.Forms.DataGridView();
             this.colPurchaseId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAccessory = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,7 +71,7 @@ namespace inventory_system.View
             this.lblTitle.ForeColor = System.Drawing.Color.Sienna;
             this.lblTitle.Location = new System.Drawing.Point(460, 20);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(232, 54);
+            this.lblTitle.Size = new System.Drawing.Size(230, 54);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Purchase";
             // 
@@ -212,7 +211,7 @@ namespace inventory_system.View
             this.lblUnitPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUnitPrice.Location = new System.Drawing.Point(600, 175);
             this.lblUnitPrice.Name = "lblUnitPrice";
-            this.lblUnitPrice.Size = new System.Drawing.Size(140, 25);
+            this.lblUnitPrice.Size = new System.Drawing.Size(139, 25);
             this.lblUnitPrice.TabIndex = 13;
             this.lblUnitPrice.Text = "Unit Price ($)";
             // 
@@ -254,7 +253,7 @@ namespace inventory_system.View
             this.lblTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPrice.Location = new System.Drawing.Point(600, 335);
             this.lblTotalPrice.Name = "lblTotalPrice";
-            this.lblTotalPrice.Size = new System.Drawing.Size(147, 25);
+            this.lblTotalPrice.Size = new System.Drawing.Size(150, 25);
             this.lblTotalPrice.TabIndex = 17;
             this.lblTotalPrice.Text = "Total Price ($)";
             // 
@@ -305,19 +304,6 @@ namespace inventory_system.View
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnClear
-            // 
-            this.btnClear.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnClear.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.Location = new System.Drawing.Point(745, 505);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(150, 44);
-            this.btnClear.TabIndex = 22;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // dgPurchase
             // 
@@ -424,7 +410,6 @@ namespace inventory_system.View
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dgPurchase);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAdd);
@@ -480,7 +465,6 @@ namespace inventory_system.View
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.DataGridView dgPurchase;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPurchaseId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAccessory;
