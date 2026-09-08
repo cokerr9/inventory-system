@@ -53,7 +53,7 @@ namespace inventory_system.View
             this.label1.ForeColor = System.Drawing.Color.Sienna;
             this.label1.Location = new System.Drawing.Point(380, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(360, 54);
+            this.label1.Size = new System.Drawing.Size(368, 54);
             this.label1.TabIndex = 0;
             this.label1.Text = "Manage Models";
             // 
@@ -131,8 +131,9 @@ namespace inventory_system.View
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(160, 44);
             this.button3.TabIndex = 7;
-            this.button3.Text = "Save";
+            this.button3.Text = "Add ";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button1
             // 
@@ -143,8 +144,9 @@ namespace inventory_system.View
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(160, 44);
             this.button1.TabIndex = 8;
-            this.button1.Text = "Clear";
+            this.button1.Text = "Update";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -157,6 +159,7 @@ namespace inventory_system.View
             this.button2.TabIndex = 9;
             this.button2.Text = "Delete";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // dataGridView1
             // 
@@ -178,6 +181,8 @@ namespace inventory_system.View
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.Size = new System.Drawing.Size(960, 460);
             this.dataGridView1.TabIndex = 10;
+            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
+            this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
             // 
             // Column1
             // 
