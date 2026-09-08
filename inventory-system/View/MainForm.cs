@@ -92,7 +92,27 @@ namespace inventory_system.View
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadLogo();
+            LoadUserInfo();
             button1_Click(this, EventArgs.Empty);
+        }
+
+        public void LoadUserInfo()
+        {
+            try
+            {
+                string userName = !string.IsNullOrWhiteSpace(UserDetail.UserName) ? UserDetail.UserName : "Administrator";
+                label1.Text = $"👤 User : {userName}";
+
+                if (!string.IsNullOrWhiteSpace(UserDetail.UserRole))
+                {
+                    ToolTip tt = new ToolTip();
+                    tt.SetToolTip(label1, $"User ID: {UserDetail.UserId}\nRole: {UserDetail.UserRole}\nStatus: {(UserDetail.UserStatus == 1 ? "Active" : "InActive")}");
+                }
+            }
+            catch
+            {
+                label1.Text = "👤 User : Administrator";
+            }
         }
 
         public void RefreshLogo()
