@@ -1,4 +1,4 @@
-﻿using inventory_system.Controller;
+using inventory_system.Controller;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,7 +56,7 @@ namespace inventory_system.View
                     userCtrl.UserName = txtUserName.Text;
                     userCtrl.Password = txtPassword.Text;
                     userCtrl.UserRole = cboxUserRole.SelectedItem.ToString();
-                    userCtrl.UserStatus = cboxUserStatus.SelectedIndex;
+                    userCtrl.UserStatus = (cboxUserStatus.SelectedItem != null && cboxUserStatus.SelectedItem.ToString() == "Active") ? 1 : 0;
                     userCtrl.InsertUser();
                     ckShowPass.Enabled = false;
 
@@ -102,7 +102,7 @@ namespace inventory_system.View
             }
             else if (btnUpdate.Text == "Update")
             {
-                if (cboxUserRole.SelectedIndex == -1)
+                if (cboxUserRole.SelectedIndex == -1 || cboxUserStatus.SelectedIndex == -1)
                 {
                     MessageBox.Show("Please Check user Info",
                         "Don't forgot!", MessageBoxButtons.OK,
@@ -114,7 +114,7 @@ namespace inventory_system.View
                     userCtrl.UserName = txtUserName.Text;
                     userCtrl.Password = txtPassword.Text;
                     userCtrl.UserRole = cboxUserRole.SelectedItem.ToString();
-                    userCtrl.UserStatus = cboxUserStatus.SelectedIndex;
+                    userCtrl.UserStatus = (cboxUserStatus.SelectedItem != null && cboxUserStatus.SelectedItem.ToString() == "Active") ? 1 : 0;
                     userCtrl.UpdateUser();
                     MessageBox.Show("User Updated", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -192,27 +192,43 @@ namespace inventory_system.View
         {
             try
             {
-                if (dgUser.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (e.RowIndex >= 0)
                 {
-                    txtUserId.Text = dgUser.Rows[e.RowIndex].Cells[0].Value.ToString();
-                    txtUserName.Text = dgUser.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    txtPassword.Text = dgUser.Rows[e.RowIndex].Cells[2].Value.ToString();
-                    cboxUserRole.SelectedItem = dgUser.Rows[e.RowIndex].Cells[3].Value.ToString();
-                    cboxUserStatus.SelectedIndex = Convert.ToInt32(dgUser.Rows[e.RowIndex].Cells[4].Value.ToString());
-                }
+                    txtUserId.Text = dgUser.Rows[e.RowIndex].Cells[0].Value?.ToString() ?? "";
+                    txtUserName.Text = dgUser.Rows[e.RowIndex].Cells[1].Value?.ToString() ?? "";
+                    txtPassword.Text = dgUser.Rows[e.RowIndex].Cells[2].Value?.ToString() ?? "";
+                    if (dgUser.Rows[e.RowIndex].Cells[3].Value != null)
+                    {
+                        cboxUserRole.SelectedItem = dgUser.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    }
 
-                DE_Functions.EnableTxtAndCbox(this);
-                btnUpdate.Enabled = true;
-                btnDelete.Enabled = true;
-                btnAdd.Enabled = true;
-                ckShowPass.Enabled = true;
-                cboxUserRole.Enabled = true;
-                txtUserId.Enabled = false;
-                btnAdd.Text = "Clear";
+                    var statusVal = dgUser.Rows[e.RowIndex].Cells[4].Value;
+                    if (statusVal != null)
+                    {
+                        string statusStr = statusVal.ToString().Trim();
+                        if (statusStr == "1" || statusStr.Equals("Active", StringComparison.OrdinalIgnoreCase) || statusStr.Equals("True", StringComparison.OrdinalIgnoreCase))
+                        {
+                            cboxUserStatus.SelectedItem = "Active";
+                        }
+                        else
+                        {
+                            cboxUserStatus.SelectedItem = "InActive";
+                        }
+                    }
 
-                if (btnAdd.Text == "Clear")
-                {
-                    btnUpdate.Text = "Update";
+                    DE_Functions.EnableTxtAndCbox(this);
+                    btnUpdate.Enabled = true;
+                    btnDelete.Enabled = true;
+                    btnAdd.Enabled = true;
+                    ckShowPass.Enabled = true;
+                    cboxUserRole.Enabled = true;
+                    txtUserId.Enabled = false;
+                    btnAdd.Text = "Clear";
+
+                    if (btnAdd.Text == "Clear")
+                    {
+                        btnUpdate.Text = "Update";
+                    }
                 }
             }
             catch (Exception ex)
@@ -224,13 +240,31 @@ namespace inventory_system.View
 
         private void dgUser_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dgUser.Columns[e.ColumnIndex].Index == 2 && e.Value != null)
+            if (e.RowIndex < 0 || e.Value == null)
+                return;
+
+            string colName = dgUser.Columns[e.ColumnIndex].Name;
+            string propName = dgUser.Columns[e.ColumnIndex].DataPropertyName;
+
+            // Mask Password column
+            if (colName == "Column3" || propName == "Password" || e.ColumnIndex == 2)
             {
-                int statusValue;
-                if (int.TryParse(e.Value.ToString(), out statusValue))
+                e.Value = new string('#', e.Value.ToString().Length);
+                e.FormattingApplied = true;
+            }
+            // Format User Status: 1 -> Active, 0 -> InActive
+            else if (colName == "Column5" || propName == "UserStatus" || e.ColumnIndex == 4)
+            {
+                string raw = e.Value.ToString().Trim();
+                if (raw == "1" || raw.Equals("True", StringComparison.OrdinalIgnoreCase) || raw.Equals("Active", StringComparison.OrdinalIgnoreCase))
                 {
-                    dgUser.Rows[e.RowIndex].Tag = e.Value;
-                    e.Value = new string('#', e.Value.ToString().Length);
+                    e.Value = "Active";
+                    e.FormattingApplied = true;
+                }
+                else if (raw == "0" || raw.Equals("False", StringComparison.OrdinalIgnoreCase) || raw.Equals("InActive", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.Value = "InActive";
+                    e.FormattingApplied = true;
                 }
             }
         }
