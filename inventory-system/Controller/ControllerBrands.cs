@@ -111,7 +111,7 @@ namespace inventory_system.Controller
             }
             catch (Exception ex)
             {
-                throw new Exception("Error updating brand: " + ex.Message);
+                throw new Exception("Error updating brands: " + ex.Message);
             }
             finally
             {
