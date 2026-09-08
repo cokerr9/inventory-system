@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace inventory_system
 {
-    class connection_db
+    public class connection_db
     {
         public SqlConnection conn;
 

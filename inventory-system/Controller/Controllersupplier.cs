@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,6 +12,11 @@ namespace inventory_system.Controller
     {
         public void InsertSupplier()
         {
+            if (string.IsNullOrWhiteSpace(SupplierName))
+            {
+                throw new Exception("Supplier Name cannot be empty.");
+            }
+
             connection_db db = new connection_db();
             try
             {
@@ -20,10 +25,10 @@ namespace inventory_system.Controller
                 using (SqlCommand cmd = new SqlCommand("InsertSupplier", db.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@SupplierName", SqlDbType.NVarChar).Value = SupplierName;
-                    cmd.Parameters.Add("@SupplierPhone", SqlDbType.NVarChar).Value = SupplierPhone;
-                    cmd.Parameters.Add("@SupplierEmail", SqlDbType.NVarChar).Value = SupplierEmail;
-                    cmd.Parameters.Add("@SupplierAddress", SqlDbType.NVarChar).Value = SupplierAddress;
+                    cmd.Parameters.Add("@SupplierName", SqlDbType.NVarChar).Value = SupplierName.Trim();
+                    cmd.Parameters.Add("@SupplierPhone", SqlDbType.NVarChar).Value = (object)SupplierPhone ?? DBNull.Value;
+                    cmd.Parameters.Add("@SupplierEmail", SqlDbType.NVarChar).Value = (object)SupplierEmail ?? DBNull.Value;
+                    cmd.Parameters.Add("@SupplierAddress", SqlDbType.NVarChar).Value = (object)SupplierAddress ?? DBNull.Value;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -38,6 +43,15 @@ namespace inventory_system.Controller
         }
         public void UpdateSupplier()
         {
+            if (SupplierId <= 0)
+            {
+                throw new Exception("Please select a valid supplier to update.");
+            }
+            if (string.IsNullOrWhiteSpace(SupplierName))
+            {
+                throw new Exception("Supplier Name cannot be empty.");
+            }
+
             connection_db db = new connection_db();
             try
             {

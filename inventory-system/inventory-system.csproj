@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="connection_db.cs" />
+    <Compile Include="Controller\AccessoryController.cs" />
     <Compile Include="Controller\CategoryController.cs" />
     <Compile Include="Controller\ControllerBrands.cs" />
     <Compile Include="Controller\ControllerModels.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Controller\PurchaseController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="Functions.cs" />
+    <Compile Include="Models\AccessoryModel.cs" />
     <Compile Include="Models\CategoryModels.cs" />
     <Compile Include="Models\Modelmodels.cs" />
     <Compile Include="Models\ModelsBrands.cs" />
@@ -227,9 +229,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="inventory_system\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\man-with-sunglasses-and-suit.png" />
   </ItemGroup>

@@ -44,6 +44,12 @@ namespace inventory_system.View
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (!UserDetail.CanAccessModule("Category"))
+            {
+                MessageBox.Show("You do not have permission to access Category management.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             uc_Container.Controls.Clear();
             uc_Container.Dock = DockStyle.Fill;
             uc_Category categoryControl = new uc_Category();
@@ -58,11 +64,16 @@ namespace inventory_system.View
             uc_Supplier supplierControl = new uc_Supplier();
             uc_Container.Controls.Add(supplierControl);
             supplierControl.BringToFront();
-
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
+            if (!UserDetail.CanAccessModule("User"))
+            {
+                MessageBox.Show("You do not have permission to access User management.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             uc_Container.Controls.Clear();
             uc_Container.Dock = DockStyle.Fill;
             uc_User userControl = new uc_User();
@@ -72,6 +83,12 @@ namespace inventory_system.View
 
         private void button7_Click(object sender, EventArgs e)
         {
+            if (!UserDetail.CanAccessModule("Setting"))
+            {
+                MessageBox.Show("You do not have permission to access System Settings.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             uc_Container.Controls.Clear();
             uc_Container.Dock = DockStyle.Fill;
             uc_Setting settingControl = new uc_Setting();
@@ -93,7 +110,61 @@ namespace inventory_system.View
         {
             LoadLogo();
             LoadUserInfo();
+            ApplyUserPermissions();
             button1_Click(this, EventArgs.Empty);
+        }
+
+        public void ApplyUserPermissions()
+        {
+            bool isAdmin = UserDetail.IsAdmin;
+
+            // Admin-only modules
+            button4.Visible = isAdmin;       // Category
+            button4.Enabled = isAdmin;
+            button8.Visible = isAdmin;       // Brands
+            button8.Enabled = isAdmin;
+            button3.Visible = isAdmin;       // Models
+            button3.Enabled = isAdmin;
+            button6.Visible = isAdmin;       // User
+            button6.Enabled = isAdmin;
+            button7.Visible = isAdmin;       // Setting
+            button7.Enabled = isAdmin;
+
+            // Modules accessible to both User and Admin: Dashboard, Accessory, Supplier, Purchase
+            button1.Visible = true;
+            button1.Enabled = true;
+            button2.Visible = true;
+            button2.Enabled = true;
+            button5.Visible = true;
+            button5.Enabled = true;
+            btnPurchase.Visible = true;
+            btnPurchase.Enabled = true;
+
+            // Neatly reposition buttons on sidebar to eliminate blank gaps
+            int startY = 112;
+            int spacing = 52;
+            int x = 12;
+
+            if (isAdmin)
+            {
+                button1.Location = new Point(x, startY);
+                button2.Location = new Point(x, startY + spacing * 1);
+                button4.Location = new Point(x, startY + spacing * 2);
+                button8.Location = new Point(x, startY + spacing * 3);
+                button3.Location = new Point(x, startY + spacing * 4);
+                button5.Location = new Point(x, startY + spacing * 5);
+                btnPurchase.Location = new Point(x, startY + spacing * 6);
+                button6.Location = new Point(x, startY + spacing * 7);
+                button7.Location = new Point(x, startY + spacing * 8);
+            }
+            else
+            {
+                // Regular User: Dashboard, Accessory, Supplier, Purchase
+                button1.Location = new Point(x, startY);
+                button2.Location = new Point(x, startY + spacing * 1);
+                button5.Location = new Point(x, startY + spacing * 2);
+                btnPurchase.Location = new Point(x, startY + spacing * 3);
+            }
         }
 
         public void LoadUserInfo()
@@ -101,13 +172,11 @@ namespace inventory_system.View
             try
             {
                 string userName = !string.IsNullOrWhiteSpace(UserDetail.UserName) ? UserDetail.UserName : "Administrator";
-                label1.Text = $"👤 User : {userName}";
+                string roleName = !string.IsNullOrWhiteSpace(UserDetail.UserRole) ? UserDetail.UserRole : "Admin";
+                label1.Text = $"👤 {userName} [{roleName}]";
 
-                if (!string.IsNullOrWhiteSpace(UserDetail.UserRole))
-                {
-                    ToolTip tt = new ToolTip();
-                    tt.SetToolTip(label1, $"User ID: {UserDetail.UserId}\nRole: {UserDetail.UserRole}\nStatus: {(UserDetail.UserStatus == 1 ? "Active" : "InActive")}");
-                }
+                ToolTip tt = new ToolTip();
+                tt.SetToolTip(label1, $"User ID: {UserDetail.UserId}\nRole: {roleName}\nStatus: {(UserDetail.UserStatus == 1 ? "Active" : "InActive")}");
             }
             catch
             {
@@ -144,6 +213,11 @@ namespace inventory_system.View
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (!UserDetail.CanAccessModule("Models"))
+            {
+                MessageBox.Show("You do not have permission to access Model management.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             uc_Container.Controls.Clear();
             uc_Container.Dock = DockStyle.Fill;
@@ -154,6 +228,11 @@ namespace inventory_system.View
 
         private void button8_Click(object sender, EventArgs e)
         {
+            if (!UserDetail.CanAccessModule("Brands"))
+            {
+                MessageBox.Show("You do not have permission to access Brand management.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             uc_Container.Controls.Clear();
             uc_Container.Dock = DockStyle.Fill;

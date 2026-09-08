@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace inventory_system.Controller
 {
-    internal class ControllerBrands:Models.ModelsBrands
+    internal class ControllerBrands : Models.ModelsBrands
     {
         public DataTable dt = new DataTable();
         public DataSet ds = new DataSet();
@@ -85,13 +85,13 @@ namespace inventory_system.Controller
         }
         public void OpenConnection(connection_db db)
         {
-            if (db.conn.State != ConnectionState.Open)
+            if (db.conn != null && db.conn.State != ConnectionState.Open)
                 db.conn.Open();
         }
 
         public void CloseConnection(connection_db db)
         {
-            if (db.conn.State != ConnectionState.Closed)
+            if (db.conn != null && db.conn.State != ConnectionState.Closed)
                 db.conn.Close();
         }
         public void UpdateBrand()
