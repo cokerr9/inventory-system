@@ -90,6 +90,7 @@
     <Compile Include="Controller\ControllerModels.cs" />
     <Compile Include="Controller\ControllerSetting.cs" />
     <Compile Include="Controller\Controllersupplier.cs" />
+    <Compile Include="Controller\DashboardController.cs" />
     <Compile Include="Controller\PurchaseController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="Functions.cs" />

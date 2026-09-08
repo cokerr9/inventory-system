@@ -1,4 +1,4 @@
-﻿using inventory_system.Properties;
+using inventory_system.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -90,6 +90,14 @@ namespace inventory_system.View
 
                     if (dt.Rows.Count > 0)
                     {
+                        DataRow row = dt.Rows[0];
+                        int userId = row["UserId"] != DBNull.Value ? Convert.ToInt32(row["UserId"]) : 0;
+                        string userName = row["UserName"] != DBNull.Value ? row["UserName"].ToString() : "";
+                        string userRole = row["UserRole"] != DBNull.Value ? row["UserRole"].ToString() : "";
+                        int userStatus = row["UserStatus"] != DBNull.Value ? Convert.ToInt32(row["UserStatus"]) : 1;
+
+                        UserDetail.SetUser(userId, userName, userRole, userStatus);
+
                         this.Hide();
                         MainForm mainForm = new MainForm();
                         mainForm.ShowDialog();
