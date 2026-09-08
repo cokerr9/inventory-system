@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="connection_db.cs" />
     <Compile Include="Controller\CategoryController.cs" />
+    <Compile Include="Controller\ControllerBrands.cs" />
     <Compile Include="Controller\ControllerModels.cs" />
     <Compile Include="Controller\ControllerSetting.cs" />
     <Compile Include="Controller\Controllersupplier.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Functions.cs" />
     <Compile Include="Models\CategoryModels.cs" />
     <Compile Include="Models\Modelmodels.cs" />
+    <Compile Include="Models\ModelsBrands.cs" />
     <Compile Include="Models\ModelsSetting.cs" />
     <Compile Include="Models\Modelsupplier.cs" />
     <Compile Include="Models\PurchaseModels.cs" />
@@ -182,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\uc_brand.resx">
+      <DependentUpon>uc_brand.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\uc_Dashboard.resx">
       <DependentUpon>uc_Dashboard.cs</DependentUpon>
