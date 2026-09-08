@@ -224,6 +224,7 @@ namespace inventory_system.View
             this.txtUnitPrice.Name = "txtUnitPrice";
             this.txtUnitPrice.Size = new System.Drawing.Size(440, 34);
             this.txtUnitPrice.TabIndex = 14;
+            this.txtUnitPrice.TextChanged += new System.EventHandler(this.txtUnitPrice_TextChanged);
             // 
             // lblQty
             // 
@@ -244,6 +245,7 @@ namespace inventory_system.View
             this.txtQty.Name = "txtQty";
             this.txtQty.Size = new System.Drawing.Size(440, 34);
             this.txtQty.TabIndex = 16;
+            this.txtQty.TextChanged += new System.EventHandler(this.txtQty_TextChanged);
             // 
             // lblTotalPrice
             // 
@@ -276,6 +278,7 @@ namespace inventory_system.View
             this.btnAdd.TabIndex = 19;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnUpdate
             // 
@@ -288,6 +291,7 @@ namespace inventory_system.View
             this.btnUpdate.TabIndex = 20;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnDelete
             // 
@@ -300,6 +304,7 @@ namespace inventory_system.View
             this.btnDelete.TabIndex = 21;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnClear
             // 
@@ -312,6 +317,7 @@ namespace inventory_system.View
             this.btnClear.TabIndex = 22;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // dgPurchase
             // 
@@ -338,6 +344,8 @@ namespace inventory_system.View
             this.dgPurchase.RowTemplate.Height = 24;
             this.dgPurchase.Size = new System.Drawing.Size(960, 280);
             this.dgPurchase.TabIndex = 23;
+            this.dgPurchase.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgPurchase_CellFormatting);
+            this.dgPurchase.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgPurchase_CellMouseClick);
             // 
             // colPurchaseId
             // 
@@ -441,6 +449,7 @@ namespace inventory_system.View
             this.Controls.Add(this.lblTitle);
             this.Name = "uc_Purchase";
             this.Size = new System.Drawing.Size(1146, 893);
+            this.Load += new System.EventHandler(this.uc_Purchase_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgPurchase)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
