@@ -30,7 +30,18 @@ namespace inventory_system.View
             DE_Functions.DisableTxtAndCbox(this);
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
+            ApplyRoleRestrictions();
             GetUserData();
+        }
+
+        private void ApplyRoleRestrictions()
+        {
+            if (!UserDetail.IsSuperAdmin)
+            {
+                cboxUserRole.Enabled = false;
+                ToolTip tt = new ToolTip();
+                tt.SetToolTip(cboxUserRole, "Only Super Admin can change user roles.");
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -42,7 +53,15 @@ namespace inventory_system.View
                 btnAdd.Text = "Insert"; 
                 btnUpdate.Enabled = true;
                 btnUpdate.Text = "Clear";
-                cboxUserRole.Enabled = true;
+                if (!UserDetail.IsSuperAdmin)
+                {
+                    cboxUserRole.SelectedItem = "User";
+                    cboxUserRole.Enabled = false;
+                }
+                else
+                {
+                    cboxUserRole.Enabled = true;
+                }
                 btnAdd.Enabled = false;
             }
             else if (btnAdd.Text == "Insert") 
@@ -55,7 +74,7 @@ namespace inventory_system.View
                 {
                     userCtrl.UserName = txtUserName.Text;
                     userCtrl.Password = txtPassword.Text;
-                    userCtrl.UserRole = cboxUserRole.SelectedItem.ToString();
+                    userCtrl.UserRole = !UserDetail.IsSuperAdmin ? "User" : cboxUserRole.SelectedItem.ToString();
                     userCtrl.UserStatus = (cboxUserStatus.SelectedItem != null && cboxUserStatus.SelectedItem.ToString() == "Active") ? 1 : 0;
                     userCtrl.InsertUser();
                     ckShowPass.Enabled = false;
@@ -113,7 +132,17 @@ namespace inventory_system.View
                     userCtrl.UserId = Convert.ToInt32(txtUserId.Text);
                     userCtrl.UserName = txtUserName.Text;
                     userCtrl.Password = txtPassword.Text;
-                    userCtrl.UserRole = cboxUserRole.SelectedItem.ToString();
+
+                    // If not Super Admin, lock down user role to its existing value so Admin cannot change user roles
+                    if (!UserDetail.IsSuperAdmin && dgUser.CurrentRow != null && dgUser.CurrentRow.Cells[3].Value != null)
+                    {
+                        userCtrl.UserRole = dgUser.CurrentRow.Cells[3].Value.ToString();
+                    }
+                    else
+                    {
+                        userCtrl.UserRole = cboxUserRole.SelectedItem.ToString();
+                    }
+
                     userCtrl.UserStatus = (cboxUserStatus.SelectedItem != null && cboxUserStatus.SelectedItem.ToString() == "Active") ? 1 : 0;
                     userCtrl.UpdateUser();
                     MessageBox.Show("User Updated", "Success",
@@ -132,6 +161,12 @@ namespace inventory_system.View
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (!UserDetail.IsSuperAdmin && cboxUserRole.SelectedItem != null && cboxUserRole.SelectedItem.ToString() == "Super Admin")
+            {
+                MessageBox.Show("Admins cannot delete a Super Admin account.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (DialogResult.Yes == MessageBox.Show("Are you sure?",
                 "Delete User", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                 if (int.TryParse(txtUserId.Text, out int userId))
@@ -221,7 +256,7 @@ namespace inventory_system.View
                     btnDelete.Enabled = true;
                     btnAdd.Enabled = true;
                     ckShowPass.Enabled = true;
-                    cboxUserRole.Enabled = true;
+                    cboxUserRole.Enabled = UserDetail.IsSuperAdmin;
                     txtUserId.Enabled = false;
                     btnAdd.Text = "Clear";
 

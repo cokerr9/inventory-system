@@ -116,6 +116,7 @@ namespace inventory_system.View
             this.cbbrandstatus.FormattingEnabled = true;
             this.cbbrandstatus.Items.AddRange(new object[] {
             "Active",
+            "InActive",
             "Disable"});
             this.cbbrandstatus.Location = new System.Drawing.Point(780, 125);
             this.cbbrandstatus.Name = "cbbrandstatus";
@@ -126,10 +127,10 @@ namespace inventory_system.View
             // 
             this.btnadd.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnadd.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnadd.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnadd.Location = new System.Drawing.Point(310, 185);
+            this.btnadd.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnadd.Location = new System.Drawing.Point(300, 185);
             this.btnadd.Name = "btnadd";
-            this.btnadd.Size = new System.Drawing.Size(160, 44);
+            this.btnadd.Size = new System.Drawing.Size(165, 44);
             this.btnadd.TabIndex = 7;
             this.btnadd.Text = "Add New";
             this.btnadd.UseVisualStyleBackColor = true;
@@ -139,10 +140,10 @@ namespace inventory_system.View
             // 
             this.btnclear.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnclear.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnclear.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnclear.Location = new System.Drawing.Point(490, 185);
+            this.btnclear.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnclear.Location = new System.Drawing.Point(485, 185);
             this.btnclear.Name = "btnclear";
-            this.btnclear.Size = new System.Drawing.Size(160, 44);
+            this.btnclear.Size = new System.Drawing.Size(165, 44);
             this.btnclear.TabIndex = 8;
             this.btnclear.Text = "Clear";
             this.btnclear.UseVisualStyleBackColor = true;
@@ -152,10 +153,10 @@ namespace inventory_system.View
             // 
             this.btndelete.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btndelete.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btndelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btndelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btndelete.Location = new System.Drawing.Point(670, 185);
             this.btndelete.Name = "btndelete";
-            this.btndelete.Size = new System.Drawing.Size(160, 44);
+            this.btndelete.Size = new System.Drawing.Size(165, 44);
             this.btndelete.TabIndex = 9;
             this.btndelete.Text = "Delete";
             this.btndelete.UseVisualStyleBackColor = true;
@@ -165,22 +166,55 @@ namespace inventory_system.View
             // 
             this.dgbrands.AllowUserToAddRows = false;
             this.dgbrands.AllowUserToDeleteRows = false;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
+            this.dgbrands.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgbrands.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgbrands.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgbrands.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgbrands.BackgroundColor = System.Drawing.Color.White;
+            this.dgbrands.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgbrands.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dgbrands.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(82)))), ((int)(((byte)(45)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(4);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(82)))), ((int)(((byte)(45)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgbrands.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgbrands.ColumnHeadersHeight = 36;
+            this.dgbrands.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgbrands.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.Column3});
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(220)))), ((int)(((byte)(205)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgbrands.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dgbrands.EnableHeadersVisualStyles = false;
+            this.dgbrands.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
             this.dgbrands.Location = new System.Drawing.Point(80, 255);
             this.dgbrands.Name = "dgbrands";
             this.dgbrands.ReadOnly = true;
+            this.dgbrands.RowHeadersVisible = false;
             this.dgbrands.RowHeadersWidth = 51;
-            this.dgbrands.RowTemplate.Height = 28;
+            this.dgbrands.RowTemplate.Height = 30;
+            this.dgbrands.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgbrands.MultiSelect = false;
             this.dgbrands.Size = new System.Drawing.Size(960, 460);
             this.dgbrands.TabIndex = 10;
+            this.dgbrands.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgbrands_CellClick);
             this.dgbrands.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dgbrands.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgbrands_CellMouseClick);
             // 
