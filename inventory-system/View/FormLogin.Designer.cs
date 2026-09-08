@@ -46,7 +46,7 @@ namespace inventory_system.View
             this.label1.ForeColor = System.Drawing.Color.Sienna;
             this.label1.Location = new System.Drawing.Point(310, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(152, 46);
+            this.label1.Size = new System.Drawing.Size(150, 46);
             this.label1.TabIndex = 0;
             this.label1.Text = "Sign In";
             // 
@@ -107,7 +107,7 @@ namespace inventory_system.View
             // 
             this.btnLogin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogin.Location = new System.Drawing.Point(310, 295);
+            this.btnLogin.Location = new System.Drawing.Point(510, 295);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(180, 44);
             this.btnLogin.TabIndex = 6;
@@ -119,7 +119,7 @@ namespace inventory_system.View
             // 
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExit.Location = new System.Drawing.Point(510, 295);
+            this.btnExit.Location = new System.Drawing.Point(310, 295);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(180, 44);
             this.btnExit.TabIndex = 7;
