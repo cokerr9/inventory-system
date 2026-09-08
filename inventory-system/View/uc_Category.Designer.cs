@@ -116,7 +116,7 @@ namespace inventory_system.View
             this.cboCategoryStatus.FormattingEnabled = true;
             this.cboCategoryStatus.Items.AddRange(new object[] {
             "Active",
-            "Disable"});
+            "InActive"});
             this.cboCategoryStatus.Location = new System.Drawing.Point(780, 125);
             this.cboCategoryStatus.Name = "cboCategoryStatus";
             this.cboCategoryStatus.Size = new System.Drawing.Size(260, 37);
@@ -180,6 +180,7 @@ namespace inventory_system.View
             this.dataCategory.Size = new System.Drawing.Size(960, 460);
             this.dataCategory.TabIndex = 10;
             this.dataCategory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataCategory_CellClick);
+            this.dataCategory.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataCategory_CellFormatting);
             // 
             // Column1
             // 

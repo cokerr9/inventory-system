@@ -116,8 +116,7 @@ namespace inventory_system.View
             this.cbbrandstatus.FormattingEnabled = true;
             this.cbbrandstatus.Items.AddRange(new object[] {
             "Active",
-            "InActive",
-            "Disable"});
+            "InActive"});
             this.cbbrandstatus.Location = new System.Drawing.Point(780, 125);
             this.cbbrandstatus.Name = "cbbrandstatus";
             this.cbbrandstatus.Size = new System.Drawing.Size(260, 37);
@@ -216,6 +215,7 @@ namespace inventory_system.View
             this.dgbrands.TabIndex = 10;
             this.dgbrands.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgbrands_CellClick);
             this.dgbrands.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dgbrands.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgbrands_CellFormatting);
             this.dgbrands.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgbrands_CellMouseClick);
             // 
             // Column1
