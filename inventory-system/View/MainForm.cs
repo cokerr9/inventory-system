@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -92,6 +92,7 @@ namespace inventory_system.View
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadLogo();
+            button1_Click(this, EventArgs.Empty);
         }
 
         public void RefreshLogo()
