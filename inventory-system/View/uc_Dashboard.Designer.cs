@@ -33,7 +33,6 @@ namespace inventory_system.View
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.lblSubtitle = new System.Windows.Forms.Label();
             this.cardAccessories = new System.Windows.Forms.Panel();
             this.lblTotalStock = new System.Windows.Forms.Label();
             this.lblTotalAccessories = new System.Windows.Forms.Label();
@@ -93,24 +92,13 @@ namespace inventory_system.View
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Dashboard Overview";
             // 
-            // lblSubtitle
-            // 
-            this.lblSubtitle.AutoSize = true;
-            this.lblSubtitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubtitle.ForeColor = System.Drawing.Color.Gray;
-            this.lblSubtitle.Location = new System.Drawing.Point(28, 70);
-            this.lblSubtitle.Name = "lblSubtitle";
-            this.lblSubtitle.Size = new System.Drawing.Size(565, 22);
-            this.lblSubtitle.TabIndex = 1;
-            this.lblSubtitle.Text = "Live inventory summary, product stock levels, and quick search filters.";
-            // 
             // cardAccessories
             // 
             this.cardAccessories.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
             this.cardAccessories.Controls.Add(this.lblTotalStock);
             this.cardAccessories.Controls.Add(this.lblTotalAccessories);
             this.cardAccessories.Controls.Add(this.lblCard1Title);
-            this.cardAccessories.Location = new System.Drawing.Point(30, 105);
+            this.cardAccessories.Location = new System.Drawing.Point(30, 90);
             this.cardAccessories.Name = "cardAccessories";
             this.cardAccessories.Size = new System.Drawing.Size(235, 115);
             this.cardAccessories.TabIndex = 2;
@@ -154,7 +142,7 @@ namespace inventory_system.View
             this.cardCategories.Controls.Add(this.lblTotalModelsSub);
             this.cardCategories.Controls.Add(this.lblTotalModels);
             this.cardCategories.Controls.Add(this.lblCard2Title);
-            this.cardCategories.Location = new System.Drawing.Point(290, 105);
+            this.cardCategories.Location = new System.Drawing.Point(290, 90);
             this.cardCategories.Name = "cardCategories";
             this.cardCategories.Size = new System.Drawing.Size(235, 115);
             this.cardCategories.TabIndex = 3;
@@ -198,7 +186,7 @@ namespace inventory_system.View
             this.cardSuppliers.Controls.Add(this.lblTotalBrandsSub);
             this.cardSuppliers.Controls.Add(this.lblTotalBrands);
             this.cardSuppliers.Controls.Add(this.lblCard3Title);
-            this.cardSuppliers.Location = new System.Drawing.Point(550, 105);
+            this.cardSuppliers.Location = new System.Drawing.Point(550, 90);
             this.cardSuppliers.Name = "cardSuppliers";
             this.cardSuppliers.Size = new System.Drawing.Size(235, 115);
             this.cardSuppliers.TabIndex = 4;
@@ -242,7 +230,7 @@ namespace inventory_system.View
             this.cardPurchases.Controls.Add(this.lblTotalPurchasesSub);
             this.cardPurchases.Controls.Add(this.lblTotalPurchases);
             this.cardPurchases.Controls.Add(this.lblCard4Title);
-            this.cardPurchases.Location = new System.Drawing.Point(810, 105);
+            this.cardPurchases.Location = new System.Drawing.Point(810, 90);
             this.cardPurchases.Name = "cardPurchases";
             this.cardPurchases.Size = new System.Drawing.Size(240, 115);
             this.cardPurchases.TabIndex = 5;
@@ -289,7 +277,7 @@ namespace inventory_system.View
             this.pnlMainContent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlMainContent.Controls.Add(this.dgvDashboardAccessories);
             this.pnlMainContent.Controls.Add(this.pnlFilterBar);
-            this.pnlMainContent.Location = new System.Drawing.Point(30, 235);
+            this.pnlMainContent.Location = new System.Drawing.Point(30, 220);
             this.pnlMainContent.Name = "pnlMainContent";
             this.pnlMainContent.Size = new System.Drawing.Size(1020, 495);
             this.pnlMainContent.TabIndex = 6;
@@ -602,7 +590,6 @@ namespace inventory_system.View
             this.Controls.Add(this.cardSuppliers);
             this.Controls.Add(this.cardCategories);
             this.Controls.Add(this.cardAccessories);
-            this.Controls.Add(this.lblSubtitle);
             this.Controls.Add(this.lblTitle);
             this.Name = "uc_Dashboard";
             this.Size = new System.Drawing.Size(1080, 750);
@@ -627,7 +614,6 @@ namespace inventory_system.View
         #endregion
 
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Label lblSubtitle;
         private System.Windows.Forms.Panel cardAccessories;
         private System.Windows.Forms.Label lblTotalStock;
         private System.Windows.Forms.Label lblTotalAccessories;

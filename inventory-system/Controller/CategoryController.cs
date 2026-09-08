@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -22,8 +22,8 @@ namespace inventory_system.Controller
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CategoryName", this.CategoryName?.Trim() ?? string.Empty);
 
-                    // Convert string "Active" to 1, otherwise 0
-                    int statusValue = string.Equals(this.CategoryStatus, "Active", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+                    // Convert "Active" (or 1/True) to 1, otherwise 0
+                    int statusValue = (this.CategoryStatus == "1" || string.Equals(this.CategoryStatus, "Active", StringComparison.OrdinalIgnoreCase) || string.Equals(this.CategoryStatus, "True", StringComparison.OrdinalIgnoreCase)) ? 1 : 0;
                     cmd.Parameters.AddWithValue("@CategoryStatus", statusValue);
 
                     cmd.ExecuteNonQuery();
@@ -62,7 +62,8 @@ namespace inventory_system.Controller
                     cmd.Parameters.AddWithValue("@CategoryId", this.CategoryId);
                     cmd.Parameters.AddWithValue("@CategoryName", this.CategoryName?.Trim() ?? string.Empty);
 
-                    int statusValue = string.Equals(this.CategoryStatus, "Active", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+                    // Convert "Active" (or 1/True) to 1, otherwise 0
+                    int statusValue = (this.CategoryStatus == "1" || string.Equals(this.CategoryStatus, "Active", StringComparison.OrdinalIgnoreCase) || string.Equals(this.CategoryStatus, "True", StringComparison.OrdinalIgnoreCase)) ? 1 : 0;
                     cmd.Parameters.AddWithValue("@CategoryStatus", statusValue);
 
                     cmd.ExecuteNonQuery();

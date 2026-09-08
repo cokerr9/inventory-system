@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -30,6 +30,10 @@ namespace inventory_system.View
 
         private void uc_Category_Load(object sender, EventArgs e)
         {
+            cboCategoryStatus.Items.Clear();
+            cboCategoryStatus.Items.Add("Active");
+            cboCategoryStatus.Items.Add("InActive");
+
             ResetFormState();
             GetCategoryData();
         }
@@ -42,30 +46,35 @@ namespace inventory_system.View
             }
             else if (btnAdd.Text == "Add")
             {
-
                 DE_Functions.ClearTxtAndCbox(this);
                 DE_Functions.EnableTxtAndCbox(this);
                 txtCategoryId.Enabled = false; 
+
+                if (cboCategoryStatus.Items.Count > 0)
+                {
+                    int activeIdx = cboCategoryStatus.FindStringExact("Active");
+                    cboCategoryStatus.SelectedIndex = activeIdx >= 0 ? activeIdx : 0;
+                }
 
                 btnAdd.Text = "Save";
 
                 btnUpdate.Enabled = false;
                 btnDelete.Enabled = false;
+                txtCategoryName.Focus();
             }
             else if (btnAdd.Text == "Save")
             {
-
-                if (string.IsNullOrWhiteSpace(txtCategoryName.Text) || cboCategoryStatus.SelectedIndex == -1)
+                if (string.IsNullOrWhiteSpace(txtCategoryName.Text) || cboCategoryStatus.SelectedIndex == -1 || cboCategoryStatus.SelectedItem == null)
                 {
                     MessageBox.Show("Please fill in Category Name and Status.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 categoryCtrl.CategoryName = txtCategoryName.Text.Trim();
-                categoryCtrl.CategoryStatus = cboCategoryStatus.SelectedItem.ToString();
+                string selectedStatus = cboCategoryStatus.SelectedItem.ToString().Trim();
+                categoryCtrl.CategoryStatus = selectedStatus.Equals("Active", StringComparison.OrdinalIgnoreCase) ? "Active" : "InActive";
                 categoryCtrl.InsertCategory();
 
-                MessageBox.Show("New category added successfully!");
                 GetCategoryData();
                 ResetFormState();
             }
@@ -79,14 +88,15 @@ namespace inventory_system.View
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtCategoryName.Text) || cboCategoryStatus.SelectedIndex == -1)
+            if (string.IsNullOrWhiteSpace(txtCategoryName.Text) || cboCategoryStatus.SelectedIndex == -1 || cboCategoryStatus.SelectedItem == null)
             {
                 MessageBox.Show("Please fill in Category Name and Status.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             categoryCtrl.CategoryId = id;
             categoryCtrl.CategoryName = txtCategoryName.Text.Trim();
-            categoryCtrl.CategoryStatus = cboCategoryStatus.SelectedItem.ToString();
+            string selectedStatus = cboCategoryStatus.SelectedItem.ToString().Trim();
+            categoryCtrl.CategoryStatus = selectedStatus.Equals("Active", StringComparison.OrdinalIgnoreCase) ? "Active" : "InActive";
             categoryCtrl.UpdateCategory();
             GetCategoryData();
             ResetFormState();
@@ -123,17 +133,25 @@ namespace inventory_system.View
                 if (row.Cells[0].Value == null || string.IsNullOrWhiteSpace(row.Cells[0].Value.ToString()))
                     return;
 
-                txtCategoryId.Text = row.Cells[0].Value?.ToString();
-                txtCategoryName.Text = row.Cells[1].Value?.ToString();
+                txtCategoryId.Text = row.Cells[0].Value?.ToString() ?? "";
+                txtCategoryName.Text = row.Cells[1].Value?.ToString() ?? "";
 
-                string statusVal = row.Cells[2].Value?.ToString();
-                if (statusVal == "1" || statusVal == "Active")
+                object statusVal = row.Cells[2].Value;
+                if (statusVal != null && !string.IsNullOrWhiteSpace(statusVal.ToString()))
                 {
-                    cboCategoryStatus.SelectedItem = "Active";
+                    string statusStr = statusVal.ToString().Trim();
+                    if (statusStr == "1" || statusStr.Equals("Active", StringComparison.OrdinalIgnoreCase) || statusStr.Equals("True", StringComparison.OrdinalIgnoreCase))
+                    {
+                        cboCategoryStatus.SelectedItem = "Active";
+                    }
+                    else
+                    {
+                        cboCategoryStatus.SelectedItem = "InActive";
+                    }
                 }
                 else
                 {
-                    cboCategoryStatus.SelectedItem = "Inactive";
+                    cboCategoryStatus.SelectedIndex = -1;
                 }
 
                 DE_Functions.EnableTxtAndCbox(this);
@@ -142,6 +160,31 @@ namespace inventory_system.View
                 btnAdd.Enabled = true;
                 btnUpdate.Enabled = true;
                 btnDelete.Enabled = true;
+            }
+        }
+
+        private void dataCategory_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.Value == null)
+                return;
+
+            string colName = dataCategory.Columns[e.ColumnIndex].Name;
+            string propName = dataCategory.Columns[e.ColumnIndex].DataPropertyName;
+
+            // Format Category Status: 1 -> Active, 0 -> InActive
+            if (colName == "Column3" || propName == "CategoryStatus" || e.ColumnIndex == 2)
+            {
+                string raw = e.Value.ToString().Trim();
+                if (raw == "1" || raw.Equals("True", StringComparison.OrdinalIgnoreCase) || raw.Equals("Active", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.Value = "Active";
+                    e.FormattingApplied = true;
+                }
+                else if (raw == "0" || raw.Equals("False", StringComparison.OrdinalIgnoreCase) || raw.Equals("InActive", StringComparison.OrdinalIgnoreCase) || raw.Equals("Inactive", StringComparison.OrdinalIgnoreCase) || raw.Equals("Disable", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.Value = "InActive";
+                    e.FormattingApplied = true;
+                }
             }
         }
 

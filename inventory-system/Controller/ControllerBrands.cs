@@ -23,8 +23,9 @@ namespace inventory_system.Controller
                 using (SqlCommand cmd = new SqlCommand("InsertBrand", db.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    string statusToSave = (BrandStatus == "1" || string.Equals(BrandStatus, "Active", StringComparison.OrdinalIgnoreCase) || string.Equals(BrandStatus, "True", StringComparison.OrdinalIgnoreCase)) ? "Active" : "InActive";
                     cmd.Parameters.Add("@BrandName", SqlDbType.NVarChar).Value = BrandName;
-                    cmd.Parameters.Add("@BrandStatus", SqlDbType.NVarChar).Value = BrandStatus;
+                    cmd.Parameters.Add("@BrandStatus", SqlDbType.NVarChar).Value = statusToSave;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -103,9 +104,10 @@ namespace inventory_system.Controller
                 using (SqlCommand cmd = new SqlCommand("UpdateBrand", db.conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    string statusToSave = (BrandStatus == "1" || string.Equals(BrandStatus, "Active", StringComparison.OrdinalIgnoreCase) || string.Equals(BrandStatus, "True", StringComparison.OrdinalIgnoreCase)) ? "Active" : "InActive";
                     cmd.Parameters.Add("@BrandId", SqlDbType.Int).Value = BrandId;
                     cmd.Parameters.Add("@BrandName", SqlDbType.NVarChar).Value = BrandName;
-                    cmd.Parameters.Add("@BrandStatus", SqlDbType.NVarChar).Value = BrandStatus;
+                    cmd.Parameters.Add("@BrandStatus", SqlDbType.NVarChar).Value = statusToSave;
                     cmd.ExecuteNonQuery();
                 }
             }

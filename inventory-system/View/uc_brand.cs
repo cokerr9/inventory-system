@@ -23,10 +23,10 @@ namespace inventory_system.View
 
         private void uc_brand_Load(object sender, EventArgs e)
         {
-            // Ensure status items are available
-            if (!cbbrandstatus.Items.Contains("Active")) cbbrandstatus.Items.Add("Active");
-            if (!cbbrandstatus.Items.Contains("InActive")) cbbrandstatus.Items.Add("InActive");
-            if (!cbbrandstatus.Items.Contains("Disable")) cbbrandstatus.Items.Add("Disable");
+            // Ensure status items are strictly string ("Active" and "InActive")
+            cbbrandstatus.Items.Clear();
+            cbbrandstatus.Items.Add("Active");
+            cbbrandstatus.Items.Add("InActive");
 
             ResetForm();
             viewBrand();
@@ -55,18 +55,17 @@ namespace inventory_system.View
             txtbrandid.Text = row.Cells[0].Value?.ToString() ?? "";
             txtbrandname.Text = row.Cells[1].Value?.ToString() ?? "";
 
-            string status = row.Cells[2].Value?.ToString() ?? "";
-            if (!string.IsNullOrEmpty(status))
+            object statusVal = row.Cells[2].Value;
+            if (statusVal != null && !string.IsNullOrWhiteSpace(statusVal.ToString()))
             {
-                int idx = cbbrandstatus.FindStringExact(status);
-                if (idx >= 0)
+                string statusStr = statusVal.ToString().Trim();
+                if (statusStr == "1" || statusStr.Equals("Active", StringComparison.OrdinalIgnoreCase) || statusStr.Equals("True", StringComparison.OrdinalIgnoreCase))
                 {
-                    cbbrandstatus.SelectedIndex = idx;
+                    cbbrandstatus.SelectedItem = "Active";
                 }
                 else
                 {
-                    cbbrandstatus.Items.Add(status);
-                    cbbrandstatus.SelectedItem = status;
+                    cbbrandstatus.SelectedItem = "InActive";
                 }
             }
             else
@@ -145,7 +144,8 @@ namespace inventory_system.View
                 try
                 {
                     cbrand.BrandName = txtbrandname.Text.Trim();
-                    cbrand.BrandStatus = cbbrandstatus.SelectedItem.ToString();
+                    string selectedStatus = cbbrandstatus.SelectedItem?.ToString().Trim() ?? "Active";
+                    cbrand.BrandStatus = selectedStatus.Equals("Active", StringComparison.OrdinalIgnoreCase) ? "Active" : "InActive";
                     cbrand.InsertBrand();
                     viewBrand();
                     MessageBox.Show("Brand Has Been Inserted", "Insert Brand", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -184,7 +184,8 @@ namespace inventory_system.View
                 {
                     cbrand.BrandId = Convert.ToInt32(txtbrandid.Text);
                     cbrand.BrandName = txtbrandname.Text.Trim();
-                    cbrand.BrandStatus = cbbrandstatus.SelectedItem.ToString();
+                    string selectedStatus = cbbrandstatus.SelectedItem?.ToString().Trim() ?? "Active";
+                    cbrand.BrandStatus = selectedStatus.Equals("Active", StringComparison.OrdinalIgnoreCase) ? "Active" : "InActive";
                     cbrand.UpdateBrand();
                     viewBrand();
                     MessageBox.Show("Brand Has Been Updated", "Update Brand", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -246,6 +247,31 @@ namespace inventory_system.View
             btnclear.Enabled = false;
             btnclear.Text = "Clear";
             btndelete.Enabled = false;
+        }
+
+        private void dgbrands_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.Value == null)
+                return;
+
+            string colName = dgbrands.Columns[e.ColumnIndex].Name;
+            string propName = dgbrands.Columns[e.ColumnIndex].DataPropertyName;
+
+            // Format Brand Status: ensure string representation ("Active" or "InActive"), never int (1 / 0)
+            if (colName == "Column3" || propName == "BrandStatus" || e.ColumnIndex == 2)
+            {
+                string raw = e.Value.ToString().Trim();
+                if (raw == "1" || raw.Equals("True", StringComparison.OrdinalIgnoreCase) || raw.Equals("Active", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.Value = "Active";
+                    e.FormattingApplied = true;
+                }
+                else if (raw == "0" || raw.Equals("False", StringComparison.OrdinalIgnoreCase) || raw.Equals("InActive", StringComparison.OrdinalIgnoreCase) || raw.Equals("Disable", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.Value = "InActive";
+                    e.FormattingApplied = true;
+                }
+            }
         }
     }
 }
